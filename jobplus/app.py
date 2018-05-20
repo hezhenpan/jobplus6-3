@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from jobplus.config import configs
 from jobplus.models import db
+from flask_migrate import Migrate
 
 def create_app(config):
     app = Flask(__name__)
@@ -8,6 +9,7 @@ def create_app(config):
 
     # 数据库的初始化
     db.init_app(app)
+    Migrate(app, db)
 
     register_blueprints(app)
 

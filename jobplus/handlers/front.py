@@ -6,7 +6,7 @@ front = Blueprint('front', __name__)
 # 首页路由函数
 @front.route('/')
 def index():
-    return render_template('base.html')
+    return render_template('index.html')
 
 
 # 登录视图函数
