@@ -34,9 +34,12 @@ class User(Base,UserMixin):
     #password 指定列名
     _password = db.Column('password',db.String(256),nullable=False)
     role = db.Column(db.SmallInteger,default=ROLE_USER)
+    
+    # 以下信息为用户补充信息
+    realname = db.Column(db.String(32))
     resume = db.Column(db.String(128))
-    # 逻辑删除标记，若不用，可忽略,0-删除,1-未删除
-    isdeleted = db.Column(db.SmallInteger,default=0)
+    phone = db.Column(db.String(12))
+    exp = db.Column(db.String(24))
 
     def __repr__(self):
         return '<User:{}>'.format(self.username)
@@ -50,7 +53,7 @@ class User(Base,UserMixin):
         """ 存入password """
         self._password = generate_password_hash(orig_password)
 
-    def check_password():
+    def check_password(self, password):
         """ 判断用户输入的密码和存储的hash密码是否相等 """
         return check_password_hash(self._password,password)
 
@@ -96,9 +99,9 @@ class ComInfo(Base):
     com_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='CASCADE'),primary_key=True)
     user = db.relationship('User',uselist=False,backref=db.backref("company"))
 
-    com_name = db.Column(db.String(128))
-    com_email = db.Column(db.String(64),unique=True,nullable=False)
-    com_phone = db.Column(db.Integer,unique=True)
+    #com_name = db.Column(db.String(128))
+    #com_email = db.Column(db.String(64),unique=True,nullable=False)
+    com_phone = db.Column(db.Integer)
     com_location = db.Column(db.String(128))
     com_logo = db.Column(db.String(128))
     com_web = db.Column(db.String(64))
@@ -106,7 +109,7 @@ class ComInfo(Base):
     com_desc_more = db.Column(db.String(256))
 
     def __repr__(self):
-        return '<Company:{}>'.format(self.com_name)
+        return '<Company:{}>'.format(self.user.username)
 
 
 class UserJob(Base):
