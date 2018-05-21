@@ -22,7 +22,7 @@ def iter_companies():
         user=user,
         com_phone="13800000000",
         com_location="北京市朝阳区北辰世纪中心",
-        com_logo="this is a logo",
+        com_logo="https://www.baidu.com/img/baidu_jgylogo3.gif",
         com_web="www.thissite.com",
         com_desc_less="this is a brief",
         com_desc_more="this is a detail desc"
