@@ -3,6 +3,7 @@ from jobplus.config import configs
 from jobplus.models import db, User
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from datetime import datetime
 
 
 def create_app(config):
@@ -10,10 +11,11 @@ def create_app(config):
     app.config.from_object(configs.get(config))
 
     register_extensions(app)
-    # 数据库的初始化
-    db.init_app(app)
+    # 用于创建测试数据
     Migrate(app, db)
     register_blueprints(app)
+    # 注册自定义过滤器
+    app.add_template_filter(get_jobdelta)
 
     return app
 
@@ -42,3 +44,9 @@ def register_extensions(app):
         return User.query.get(id)
 
     login_manager.login_view = 'front.login'
+
+
+# 自定义的用于职位列表的过滤器
+def get_jobdelta(value):
+    job_del = datetime.now() - value
+    return job_del.days

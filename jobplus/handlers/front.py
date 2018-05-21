@@ -1,16 +1,23 @@
 import re
-from flask import Blueprint, render_template, url_for, flash, redirect
+from flask import Blueprint, render_template, url_for, flash, redirect, current_app
 from jobplus.forms import LoginForm, RegisterForm, RegisterComForm
 from flask_login import login_user
 from jobplus.models import User
+from jobplus.models import JobInfo as Job
 
 
 front = Blueprint('front', __name__)
 
+
 # 首页路由函数
 @front.route('/')
 def index():
-    return render_template('index.html')
+    pagination = Job.query.order_by(Job.created_at.desc()).paginate(
+        page=1,
+        per_page=current_app.config['INDEX_PER_PAGE'],
+        error_out=False
+    )
+    return render_template('index.html', pagination=pagination, active='jobs')
 
 
 # 登录视图函数

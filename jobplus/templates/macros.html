@@ -33,11 +33,13 @@
 </form>
 {% endmacro %}
 
+{# 渲染 分页功能 #}
 {% macro render_pagination(pagination, endpoint) %}
     <nav class="nav-pagination" aria-label="Page navigation">
         <ul class="pagination">
             <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
-                <a href="{{ url_for(endpoint, page=pagination.prev_num) }}" aria-label="Previous">
+                <a href="{{ url_for(endpoint, page=pagination.prev_num) if pagination.has_prev else '#' }}"
+                   aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -50,12 +52,13 @@
                         <li class="active"><a href="#">{{ page }}<span class="sr-only">(current)</span></a></li>
                     {% endif %}
                 {% else %}
-                    <span class="ellipsis">?</span>
+                    <span class="ellipsis">...</span>
                 {% endif %}
             {% endfor %}
 
             <li{% if not pagination.has_next %} class="disabled"{% endif %}>
-                <a href="{{ url_for(endpoint, page=pagination.next_num) }}" aria-label="Next">
+                <a href="{{ url_for(endpoint, page=pagination.next_num) if pagination.has_next else '#' }}"
+                   aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -63,16 +66,17 @@
     </nav>
 {% endmacro %}
 
+{# 渲染每一个职位信息 #}
 {% macro render_job(job) %}
     <div class="col-sm-6 col-md-4">
         <div class="job-box">
             <div class="caption">
                 <a href="#">
-                    <b>{{ job.title }}</b> <span class="timesince">[1天前]</span>
-                    <p>经验{{ job.exp }}年 学历{{ job.degree }}</p>
-                    <span class="label label-default">{{ job.tags }}</span>
-                    <span class="label label-default">des</span>
-                    <span class="label label-default">dfe</span>
+                    <b>{{ job.title }}</b> <span class="timesince">[{{ job.updated_at | get_jobdelta }}天前]</span>
+                    <p>经验{{ job.exp }}年 学历{{ job.degree }} 薪资范围:{{ job.low_salary }}-{{ job.high_salary }}</p>
+                    {% for tag in job.tags.split(",") %}
+                        <span class="label label-default">{{ tag }}</span>
+                    {% endfor %}
                 </a>
             </div>
             <hr>
