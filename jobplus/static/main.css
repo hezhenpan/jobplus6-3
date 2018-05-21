@@ -17,3 +17,11 @@
     background-color: #fff;
 }
 
+.job-box {
+    padding: 13px;
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+

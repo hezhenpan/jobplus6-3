@@ -64,13 +64,13 @@
 {% endmacro %}
 
 {% macro render_job(job) %}
-    <div class="col-sm-6 col-md-3">
+    <div class="col-sm-6 col-md-4">
         <div class="job-box">
             <div class="caption">
                 <a href="#">
-                    <b>{{ job.name }}</b> <span class="timesince">[1天前]</span>
-                    <p>经验1 年 学历专科</p>
-                    <span class="label label-default">jdk</span>
+                    <b>{{ job.title }}</b> <span class="timesince">[1天前]</span>
+                    <p>经验{{ job.exp }}年 学历{{ job.degree }}</p>
+                    <span class="label label-default">{{ job.tags }}</span>
                     <span class="label label-default">des</span>
                     <span class="label label-default">dfe</span>
                 </a>
@@ -79,14 +79,14 @@
             <div class="media">
                 <div class="media-left">
                     <a href="#">
-                        <img width="40" height="40" class="media-object" alt="..." src="one logo is in here">
+                        <img width="40" height="40" class="media-object" alt="..." src="{{ job.company.com_logo }}">
                     </a>
                 </div>
                 <div class="media-body">
                     <a href="#">
-                        <h4 class="media-heading">{{ job.company.name }}</h4>
+                        <h4 class="media-heading">{{ job.company.user.username }}</h4>
                     </a>
-                    <span class="company-meta">None/None/地址地址地址</span>
+                    <span class="company-meta">None/None/{{ job.company.com_location }}</span>
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@ def create_app(config):
 
     register_extensions(app)
     # 数据库的初始化
-    # db.init_app(app)
+    db.init_app(app)
     Migrate(app, db)
     register_blueprints(app)
 

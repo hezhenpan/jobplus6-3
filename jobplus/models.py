@@ -89,7 +89,7 @@ class JobInfo(Base):
     company = db.relationship('ComInfo',uselist=False,backref=db.backref("job"))
 
     def __repr__(self):
-        return '<Company:{},Job:{}>'.format(self.company.username,self.title)
+        return '<Company:{},Job:{}>'.format(self.company.user.username,self.title)
 
 
 class ComInfo(Base):
@@ -101,7 +101,7 @@ class ComInfo(Base):
 
     # com_name = db.Column(db.String(128))
     # com_email = db.Column(db.String(64),unique=True,nullable=False)
-    com_phone = db.Column(db.Integer)
+    com_phone = db.Column(db.String(11))
     com_location = db.Column(db.String(128))
     com_logo = db.Column(db.String(128))
     com_web = db.Column(db.String(64))
