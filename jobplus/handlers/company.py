@@ -4,7 +4,7 @@ from flask import Blueprint, render_template,flash
 from flask import redirect,url_for
 from jobplus.forms import CompanyForm
 from jobplus.models import ComInfo
-from flask_login import login_required,current_user
+from flask_login import login_required, current_user
 
 company = Blueprint('company', __name__, url_prefix='/company')
 

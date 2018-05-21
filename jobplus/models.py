@@ -34,7 +34,7 @@ class User(Base,UserMixin):
     #password 指定列名
     _password = db.Column('password',db.String(256),nullable=False)
     role = db.Column(db.SmallInteger,default=ROLE_USER)
-    
+
     # 以下信息为用户补充信息
     realname = db.Column(db.String(32))
     resume = db.Column(db.String(128))
@@ -99,8 +99,8 @@ class ComInfo(Base):
     com_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='CASCADE'),primary_key=True)
     user = db.relationship('User',uselist=False,backref=db.backref("company"))
 
-    #com_name = db.Column(db.String(128))
-    #com_email = db.Column(db.String(64),unique=True,nullable=False)
+    # com_name = db.Column(db.String(128))
+    # com_email = db.Column(db.String(64),unique=True,nullable=False)
     com_phone = db.Column(db.Integer)
     com_location = db.Column(db.String(128))
     com_logo = db.Column(db.String(128))

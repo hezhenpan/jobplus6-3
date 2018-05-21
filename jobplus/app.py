@@ -27,6 +27,7 @@ def register_blueprints(app):
     app.register_blueprint(admin)
     app.register_blueprint(user)
 
+
 # 用于将Flask扩展注册到app
 def register_extensions(app):
     # 数据库初始化
@@ -41,4 +42,3 @@ def register_extensions(app):
         return User.query.get(id)
 
     login_manager.login_view = 'front.login'
-

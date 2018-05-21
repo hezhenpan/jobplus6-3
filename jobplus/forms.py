@@ -1,7 +1,7 @@
 # *_*coding:utf-8 *_*
 import re
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms import TextAreaField,IntegerField
 from wtforms.validators import Length,Email,EqualTo,Required,URL,NumberRange
 from wtforms import ValidationError
@@ -12,15 +12,14 @@ class CompanyForm(FlaskForm):
     com_name = StringField('企业名称',validators=[Required(),Length(3,24)])
     com_email = StringField('邮箱',validators=[Required(),Email()])
     #password = StringField('密码',)
-    com_location = StringField('地址',validators=[Required(),Length(1,24)])
+    com_location = StringField('地址', validators=[Required(), Length(1, 24)])
     com_logo = StringField('logo链接',validators=[Required(),URL()])
     com_web = StringField('网站链接',validators=[Required(),URL()])
     com_desc_less = StringField('一句话简介',validators=[Required(),Length(3,48)])
     com_desc_more = StringField('详细介绍',validators=[Required(),Length(3,256)])
     submit = SubmitField('提交')
-    
-    def set_details(self,company):
-        
+
+    def set_details(self, company):
         # 将表单数据填入数据库映射类对象
         self.populate_obj(company)
         
@@ -28,41 +27,41 @@ class CompanyForm(FlaskForm):
         db.session.commit()
         return company
 
-    # 需要验证邮箱唯一性？(需要再添加)
+        # 需要验证邮箱唯一性？(需要再添加)
 
 
 class UserForm(FlaskForm):
-    realname = StringField('姓名',validators=[Required(),Length(1,24)])
-    email = StringField('邮箱',validators=[Required(),Email()])
+    realname = StringField('姓名', validators=[Required(), Length(1, 24)])
+    email = StringField('邮箱', validators=[Required(), Email()])
     password = PasswordField('密码')
     # 手机号需补充验证
-    phone = StringField('手机号',validators=[Required()])
-    exp = StringField('工作经验',validators=[Length(0,24)])
+    phone = StringField('手机号', validators=[Required()])
+    exp = StringField('工作经验', validators=[Length(0, 24)])
     # 简历先用url代替
-    resume = StringField('简历',validators=[Required(),URL()])
+    resume = StringField('简历', validators=[Required(), URL()])
     submit = SubmitField('提交')
 
-    def set_info(self,user):
-        #self.populate_obj(user)
+    def set_info(self, user):
+        # self.populate_obj(user)
         user.realname = self.realname.data
         user.email = self.email.data
         if self.password.data:
-            user.password=self.password.data
+            user.password = self.password.data
         user.phone = self.phone.data
         user.exp = self.exp.data
         user.resume = self.resume.data
-        
+
         db.session.add(user)
         db.session.commit()
         return user
-
 
 
 class RegisterForm(FlaskForm):
     username = StringField('用户名', validators=[Required(message='* 用户名不能为空'), Length(3, 24, message='用户名长度要在3～24个字符之间')])
     email = StringField('邮箱', validators=[Required(message='* 邮箱不能为空'), Email(message='邮箱名不合法')])
     password = PasswordField('密码', validators=[Required(message='* 密码不能为空'), Length(6, 24, message='密码长度要在6～24个字符之间')])
-    repeat_password = PasswordField('确认密码', validators=[Required(message='* 密码不能为空'), EqualTo('password', message='两次填写的密码不一致')])
+    repeat_password = PasswordField('确认密码', validators=[Required(message='* 密码不能为空'),
+                                                        EqualTo('password', message='两次填写的密码不一致')])
     submit = SubmitField('提交')
 
   
@@ -79,7 +78,6 @@ class RegisterForm(FlaskForm):
         """ 验证用户名是否已存在 """
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('该用户名已注册')
-
 
     def validate_email(self, field):
         """ 验证用户邮箱是否已存在 """
@@ -113,10 +111,10 @@ class LoginForm(FlaskForm):
 
 
 class RegisterComForm(FlaskForm):
-    companyname = StringField('用户名',validators=[Required(message='* 用户名不能为空')])
-    email = StringField('邮箱',validators=[Required(),Email()])
-    password = PasswordField('密码',validators=[Required(),Length(6,24)])
-    repeat_password = PasswordField('重复密码',validators=[Required(),EqualTo('password')])
+    companyname = StringField('用户名', validators=[Required(message='* 用户名不能为空')])
+    email = StringField('邮箱', validators=[Required(), Email()])
+    password = PasswordField('密码', validators=[Required(), Length(6, 24)])
+    repeat_password = PasswordField('重复密码', validators=[Required(), EqualTo('password')])
     submit = SubmitField('提交')
 
     def create_company(self):
@@ -135,13 +133,12 @@ class RegisterComForm(FlaskForm):
         db.session.add(company)
         db.session.commit()
 
-    def validate_companyname(self,field):
+    def validate_companyname(self, field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError("用户名已经存在！")
-        if not re.match(r'^[a-zA-Z0-9]{3,24}$',field.data):
+        if not re.match(r'^[a-zA-Z0-9]{3,24}$', field.data):
             raise ValidationError('请输入3至24位字母或数字！')
 
-    def validate_email(self,field):
+    def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已注册！')
-
