@@ -13,4 +13,4 @@ def index():
         per_page=current_app.config['INDEX_PER_PAGE'],
         error_out=False
     )
-    return render_template('job/index.html', pagination=pagination, active='job')
+    return render_template('job/index.html', pagination=pagination, active='jobs')
