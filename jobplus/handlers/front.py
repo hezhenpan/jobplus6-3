@@ -1,7 +1,7 @@
 import re
 from flask import Blueprint, render_template, url_for, flash, redirect, current_app
 from jobplus.forms import LoginForm, RegisterForm, RegisterComForm
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 from jobplus.models import User
 from jobplus.models import JobInfo as Job
 
@@ -32,8 +32,16 @@ def login():
             user = User.query.filter_by(username=form.username_or_email.data).first()
         login_user(user, form.remember_me.data)
         # 这里后面要填写定向到哪个页面
-        return 'Login Success'
+        return redirect(url_for('.index'))
     return render_template('login.html', form=form)
+
+
+@front.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('您已经退出登录', 'success')
+    return redirect(url_for('.index'))
 
 
 # 注册视图函数

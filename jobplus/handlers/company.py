@@ -30,10 +30,7 @@ def setdetail():
     form.com_email.data = current_user.email
     
     if form.validate_on_submit():
-        form.set_details(current_user,com_tmp)
+        form.set_details(current_user, com_tmp)
         flash('更新信息成功!','success')
         return redirect(url_for('company.index'))
     return render_template('company/set_details.html',form=form)
-
-
-
