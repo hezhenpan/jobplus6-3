@@ -160,3 +160,70 @@ class RegisterComForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已注册！')
+
+
+class Add_UserForm(FlaskForm):
+    username = StringField('用户名', validators=[Required(message='* 用户名不能为空'), Length(3, 24, message='用户名长度要在3～24个字符之间')])
+    email = StringField('邮箱', validators=[Required(message='* 邮箱不能为空'), Email(message='邮箱名不合法')])
+    password = PasswordField('密码', validators=[Required(message='* 密码不能为空'), Length(6, 24, message='密码长度要在6～24个字符之间')])
+    phone = StringField('手机号', validators=[Required()])
+
+    submit = SubmitField('提交')
+
+    def create_user(self):
+        user = User()
+        user.username = self.username.data
+        user.email = self.email.data
+        user.password = self.password.data
+        user.phone = self.password.data
+        db.session.add(user)
+        db.session.commit()
+        return user
+
+    def validate_username(self, field):
+        """ 验证用户名是否已存在 """
+        if User.query.filter_by(username=field.data).first():
+            raise ValidationError('该用户名已注册')
+
+    def validate_email(self, field):
+        """ 验证用户邮箱是否已存在 """
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('该邮箱已注册')
+
+
+class Add_ComForm(FlaskForm):
+    companyname = StringField('企业名称', validators=[Required(message='* 用户名不能为空')])
+    email = StringField('邮箱', validators=[Required(), Email()])
+    password = PasswordField('密码', validators=[Required(), Length(6, 24)])
+    com_web = StringField('网站链接', validators=[Required(), URL()])
+    com_desc_less = StringField('一句话简介', validators=[Required(), Length(3, 48)])
+
+    submit = SubmitField('提交')
+
+    def create_company(self):
+        user = User()
+        user.username = self.companyname.data
+        user.email = self.email.data
+        user.password = self.password.data
+        user.role = User.ROLE_COMPANY
+
+        db.session.add(user)
+        db.session.commit()
+
+        company = ComInfo()
+        company.user = user
+        company.com_web = self.com_web.data
+        company.com_desc_less = self.com_desc_less.data
+
+        db.session.add(company)
+        db.session.commit()
+
+    def validate_companyname(self, field):
+        if User.query.filter_by(username=field.data).first():
+            raise ValidationError("用户名已经存在！")
+        if not re.match(r'^[a-zA-Z0-9]{3,24}$', field.data):
+            raise ValidationError('请输入3至24位字母或数字！')
+
+    def validate_email(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('邮箱已注册！')

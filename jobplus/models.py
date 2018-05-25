@@ -27,9 +27,11 @@ class User(Base,UserMixin):
     ROLE_COMPANY = 20
     ROLE_ADMIN = 30
 
+
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(32),unique=True,index=True,nullable=False)
     email = db.Column(db.String(64),unique=True,index=True,nullable=False)
+    coms = db.relationship('ComInfo')
 
     #password 指定列名
     _password = db.Column('password',db.String(256),nullable=False)
@@ -40,6 +42,7 @@ class User(Base,UserMixin):
     resume = db.Column(db.String(128))
     phone = db.Column(db.String(12))
     exp = db.Column(db.String(24))
+    status = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<User:{}>'.format(self.username)
@@ -64,6 +67,10 @@ class User(Base,UserMixin):
     @property
     def is_company(self):
         return self.role == self.ROLE_COMPANY
+
+    @property
+    def is_disable(self):
+        return not self.status
 
 
 class JobInfo(Base):

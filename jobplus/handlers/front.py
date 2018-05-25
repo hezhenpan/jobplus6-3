@@ -32,7 +32,11 @@ def login():
             user = User.query.filter_by(username=form.username_or_email.data).first()
         login_user(user, form.remember_me.data)
         # 这里后面要填写定向到哪个页面
-        return redirect(url_for('.index'))
+        if user.status:
+            flash('登录成功', 'success')
+            return redirect(url_for('.index'))
+        else:
+            flash('用户被禁用', 'danger')
     return render_template('login.html', form=form)
 
 

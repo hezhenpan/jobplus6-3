@@ -1,82 +1,81 @@
 {% extends "base.html" %}
 
 {% block title %}
-Company-{{ c_company.user.username }}
+    Company-{{ c_company.user.username }}
 {% endblock %}
 
 {% block body %}
-<div class="company-detail_base">
-    <!-- 企业基本信息部分 -->
-    <div class="container">
-        <div class="row mt30 mb30">
-            <div class="col-md-2 col-sm-3">
-                <div class="img-warp">
-                    <img width="100%" src="{{ c_company.com_logo }}">
+    <div class="company-detail_base">
+        <!-- 企业基本信息部分 -->
+        <div class="container">
+            <div class="row mt30 mb30">
+                <div class="col-md-2 col-sm-3">
+                    <div class="img-warp">
+                        <img width="100%" src="{{ c_company.com_logo }}">
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-7 col-sm-7">
-                <h3>{{ c_company.user.username }}</h3>
-                <p class="company-desc ellipsis text-muted">{{ c_company.com_desc_less }}</p>
-                <ul class="list-inline m10 mb0 company-detail-mod-base-info_tags">
+                <div class="col-md-7 col-sm-7">
+                    <h3>{{ c_company.user.username }}</h3>
+                    <p class="company-desc ellipsis text-muted">{{ c_company.com_desc_less }}</p>
+                    <ul class="list-inline m10 mb0 company-detail-mod-base-info_tags">
                         <li>标签字段待添加</li>
-                </ul>
-            </div>
-        </div>
-    
-    </div>
-</div>
-
-<hr>
-
-<!--中间菜单栏 -->
-<div class="menu">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <ul class="nav nav-tabs nav-tabs-details">
-                    {% block active %}
-                    <li class="active">
-                    <a href="{{ url_for('company.details',company_id=c_company.com_id) }}">企业主页</a>
-                    </li>
-                    <li>
-                    <a href="{{ url_for('company.dt_jobs',company_id=c_company.com_id) }}">招聘职位</a>
-                    </li>
-                    {% endblock %}
-                </ul>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-
-<div class="company-info_details">
-    <div class="container">
-        <div class="row">
-            <!-- 企业主页及招聘职位 -->
-            <div class="col-md-9">
-            {% block info %}
-                <h4>关于我们</h4>
-                <div>
-                    <p>{{ c_company.com_desc_more }}</p>
+                    </ul>
                 </div>
-            {% endblock %}
             </div>
-            <!--工作地点 -->
-            <div class="col-md-3">
-                <h4>工作地点</h4>
-                <div>
-                    <i class="fa fa-map-marker"></i>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <!--中间菜单栏 -->
+    <div class="menu">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <ul class="nav nav-tabs nav-tabs-details">
+                        {% block active %}
+                            <li class="active">
+                                <a href="{{ url_for('company.details',company_id=c_company.com_id) }}">企业主页</a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('company.dt_jobs',company_id=c_company.com_id) }}">招聘职位</a>
+                            </li>
+                        {% endblock %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="company-info_details">
+        <div class="container">
+            <div class="row">
+                <!-- 企业主页及招聘职位 -->
+                <div class="col-md-9">
+                    {% block info %}
+                        <h4>关于我们</h4>
+                        <div>
+                            <p>{{ c_company.com_desc_more }}</p>
+                        </div>
+                    {% endblock %}
+                </div>
+                <!--工作地点 -->
+                <div class="col-md-3">
+                    <h4>工作地点</h4>
                     <div>
-                        <span>{{ c_company.com_location }}</span>
+                        <i class="fa fa-map-marker"></i>
+                        <div>
+                            <span>{{ c_company.com_location }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
-
-
-
-</div>
 
 {% endblock %}
