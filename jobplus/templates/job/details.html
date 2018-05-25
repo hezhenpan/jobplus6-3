@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+Job - {{ cjob.title }}
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron">
+    <h2>{{ cjob.title }}</h2>
+    <p> 薪酬: {{ cjob.low_salary }}-{{ cjob.high_salary }}</p>
+    <p>标签：{{ cjob.tags }}</p>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-md-8">
+            <!-- 职位信息 -->
+            <h3>职位要求</h3>
+                <div>
+                    <span>学历：{{cjob.degree}}</span>
+                    <span>工作经验：{{cjob.exp}}</span>
+                    <span></span>
+                </div>
+            <h3>职位描述</h3>
+                <div>工作地点：{{ cjob.work_place }}</div>
+                <div><span>详情：{{ cjob.desc }}</span></div> 
+        </div>
+        <div class="col-md-4">
+            <!-- 公司信息 -->
+            <h3>公司信息</h3>
+                <div class="media">
+                    
+                    <div class="media-left">
+                        <img width=64 height=64 class="media-object" src="{{ cjob.company.com_logo}}" alt="64x64">
+                    </div>
+
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            {{ cjob.company.user.username }}
+                        </h4>
+                        <p>{{ cjob.company.com_desc_less }}</p>
+                    </div>
+                
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
