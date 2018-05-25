@@ -6,12 +6,12 @@
 {% endblock %}
 
 {% block operation %}
-    <a href="{{ url_for('admin.create_user') }}" type="button" class="btn btn-primary">
+    <a href="{{ url_for('admin.create_user') }}" type="button" class="btn btn-warning">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         添加用户
     </a>
     <p></p>
-    <a href="{{ url_for('admin.add_company') }}" type="button" class="btn btn-primary">
+    <a href="{{ url_for('admin.add_company') }}" type="button" class="btn btn-warning">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         添加企业
     </a>
@@ -45,10 +45,10 @@
                         <a href="{% if user.is_company %}{{ url_for('admin.edit_company', com_id=user.id) }}
                         {% else %}
                         {{ url_for('admin.edit_user', user_id=user.id) }}{% endif %}" type="button"
-                           class="btn btn-default" title="编辑">编辑
+                           class="btn btn-success" title="编辑">编辑
                         </a>
                         <a href="{{ url_for('admin.reverse_user_status', user_id=user.id) }}" type="button"
-                           class="btn btn-default">{% if user.is_disable %}启用{% else %}禁用{% endif %}
+                           class="btn btn-danger">{% if user.is_disable %}启用{% else %}禁用{% endif %}
                         </a>
                     </div>
                 </td>

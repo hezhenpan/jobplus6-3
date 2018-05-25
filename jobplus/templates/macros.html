@@ -24,7 +24,7 @@
             {% if field.errors %}
                 {% for error in field.errors %}
                 <!-- 根据Bootstrap样式错误信息显示类为help-block的span标签中 -->
-                <span class="help-block">{{ error }}</span>
+                    <span class="help-block alert-danger">{{ error }}</span>
                 {% endfor%}
             {% endif %}
         </div>

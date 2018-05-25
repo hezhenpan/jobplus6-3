@@ -130,7 +130,7 @@ class UserJob(Base):
     # 与JobInfo表建立关系
     job_id = db.Column(db.Integer,db.ForeignKey('jobinfo.job_id'))
     job = db.relationship('JobInfo',backref=db.backref('interm'))
-    
+
     # 简历链接
     resume = db.Column(db.String(128))
     # 简历状态 0-待查看，1-已拒绝，2-面试

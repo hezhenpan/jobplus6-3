@@ -48,6 +48,13 @@ class CompanyForm(FlaskForm):
         if field.data and not re.match(r'^[a-zA-Z0-9]{6,24}$', field.data):
             raise ValidationError('请输入6至24位字母或者数字!')
 
+    # 验证手机号码
+    def validate_com_phone(self, field):
+        if field.data and not re.match(r'^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$',
+                                       field.data):
+            raise ValidationError('请输入正确手机号!')
+
+
 class UserForm(FlaskForm):
     realname = StringField('姓名', validators=[Required(), Length(1, 24)])
     email = StringField('邮箱', validators=[Required(), Email()])

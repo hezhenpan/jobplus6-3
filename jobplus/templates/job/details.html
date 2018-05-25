@@ -5,49 +5,49 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-9 col-xs-12">
-            <div class="media">
-                <div class="media-left">
-                    <img width=128 height=128 class="media-object" src="{{ cjob.company.com_logo}}" alt="64x64">
-                </div>
-                <div class ="media-body">
-                    <h2 class="media-heading">{{ cjob.title }}</h2>
-                    <div class="row">
-                        <div class="col-md-6"> 薪酬: {{ cjob.low_salary }}-{{ cjob.high_salary }}</div>
-                        <div class="col-md-6">学历：{{cjob.degree}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">工作经验：{{cjob.exp}}年</div>
-                        <div class="col-md-6">工作地点：{{ cjob.work_place }}</div>
-                    </div>
-                    <p>标签：</p>
-                    <p>{{ cjob.tags }}</p>
-                </div>
-            </div>
-            <hr>
-        </div>
-    </div>
-</div>
-
-<div>
     <div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <!-- 职位信息 -->
-            <h3>职位描述</h3>
-                <div><span>{{ cjob.desc }}</span></div>
-            <h3>职位要求</h3>
-                <div>字段待添加</div>
-        </div>
-        <div class="col-md-3">
-            <!-- 公司信息 -->
-            <h3>公司信息</h3>
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
                 <div class="media">
-                    
                     <div class="media-left">
-                        <img width=64 height=64 class="media-object" src="{{ cjob.company.com_logo}}" alt="64x64">
+                        <img width=128 height=128 class="media-object" src="{{ cjob.company.com_logo }}" alt="64x64">
+                    </div>
+                    <div class="media-body">
+                        <h2 class="media-heading">{{ cjob.title }}</h2>
+                        <div class="row">
+                            <div class="col-md-6"> 薪酬: {{ cjob.low_salary }}-{{ cjob.high_salary }}</div>
+                            <div class="col-md-6">学历：{{ cjob.degree }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">工作经验：{{ cjob.exp }}年</div>
+                            <div class="col-md-6">工作地点：{{ cjob.work_place }}</div>
+                        </div>
+                        <p>标签：</p>
+                        <p>{{ cjob.tags }}</p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+    </div>
+    </div>
+
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <!-- 职位信息 -->
+                    <h3>职位描述</h3>
+                    <div><span>{{ cjob.desc }}</span></div>
+                    <h3>职位要求</h3>
+                    <div>字段待添加</div>
+                </div>
+                <div class="col-md-3">
+                    <!-- 公司信息 -->
+                    <h3>公司信息</h3>
+                <div class="media">
+
+                    <div class="media-left">
+                        <img width=64 height=64 class="media-object" src="{{ cjob.company.com_logo }}" alt="64x64">
                     </div>
 
                     <div class="media-body">
@@ -56,23 +56,25 @@
                         </h4>
                         <p>{{ cjob.company.com_desc_less }}</p>
                     </div>
-                
+
                 </div>
-        </div>
-    </div>
-    <p class="mt20 text-muted">发布于:{{ cjob.created_at }}</p>
-        <div class="row">
-            <div class="col-md-6">
-            {% if d %}
-            <a class="btn btn-primary btn-lg disabled" href="{{ url_for('jobs.delivery',job_id=cjob.job_id) }}">已投递</a>
-            {% else %}
-            <a class="btn btn-primary btn-lg" href="{{ url_for('jobs.delivery',job_id=cjob.job_id) }}">投递申请</a>
-            {% endif %}
+                </div>
+            </div>
+            <p class="mt20 text-muted">发布于:{{ cjob.created_at }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    {% if d %}
+                        <a class="btn btn-primary btn-lg disabled"
+                           href="{{ url_for('jobs.delivery',job_id=cjob.job_id) }}">已投递</a>
+                    {% else %}
+                        <a class="btn btn-primary btn-lg"
+                           href="{{ url_for('jobs.delivery',job_id=cjob.job_id) }}">投递申请</a>
+                    {% endif %}
             </div>
         </div>
 
 
+        </div>
     </div>
-</div>
 
 {% endblock %}
