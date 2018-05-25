@@ -1,6 +1,6 @@
 <!-- 需要传入2个参数：要渲染的from和点击提交的url -->
 {% macro render_form(form,url)  %}
-<form method="POST",action="{{ url }}">
+    <form method="POST" action="{{ url }}">
     <!-- 将 csrf_token渲染在表单开始的位置 -->
     {{ form.csrf_token }}
     <!--迭代每个表单 field -->
@@ -24,7 +24,7 @@
             {% if field.errors %}
                 {% for error in field.errors %}
                 <!-- 根据Bootstrap样式错误信息显示类为help-block的span标签中 -->
-                <span class="help-block">{{ error }}</span>
+                    <span class="help-block alert-danger">{{ error }}</span>
                 {% endfor%}
             {% endif %}
         </div>
@@ -33,65 +33,67 @@
 </form>
 {% endmacro %}
 
+{# 渲染 分页功能 #}
 {% macro render_pagination(pagination, endpoint) %}
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li {% if not pagination.has_prev %} class="disabled"{% endif %}>
-          <a href="{{ url_for(endpoint, page=pagination.prev_num) if pagination.has_prev }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
+    <nav class="nav-pagination" aria-label="Page navigation">
+        <ul class="pagination">
+            <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
+                <a href="{{ url_for(endpoint, page=pagination.prev_num) if pagination.has_prev else '#' }}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
 
-      {% for page in pagination.iter_pages() %}
-          {% if page %}
-              {% if page != pagination.page %}
-                  <li><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
-              {% else %}
-                  <li class="active"><a href="#">{{ page }}<span class="sr-only">(current)</span></a></li>
+            {% for page in pagination.iter_pages() %}
+                {% if page %}
+                    {% if page != pagination.page %}
+                        <li><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
+                    {% else %}
+                        <li class="active"><a href="#">{{ page }}<span class="sr-only">(current)</span></a></li>
+                    {% endif %}
+                {% else %}
+                    <span class="ellipsis">...</span>
+                {% endif %}
+            {% endfor %}
 
-              {% endif %}
-          {% else %}
-              <span class="ellipsis"></span>
-          {% endif %}
-
-      {% endfor %}
-
-        <li {% if not pagination.has_next %} class="disabled"{% endif %}>
-          <a href="{{ url_for(endpoint, page=pagination.next_num) if pagination.has_next }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
+            <li{% if not pagination.has_next %} class="disabled"{% endif %}>
+                <a href="{{ url_for(endpoint, page=pagination.next_num) if pagination.has_next else '#' }}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
     </nav>
 {% endmacro %}
 
+{# 渲染每一个职位信息 #}
 {% macro render_job(job) %}
-    <div class="col-sm-6 col-md-4 ">
-      <div class="job-box">
-      <div class="caption">
-        <a href="#">
-        <b>{{ job.name }}</b> <span class="timesince">[1天前]</span>
-        <p>经验要求 学历要求</p>
-        <span class="label label-default">标签</span>
-        <span class="label label-default">标签</span>
-        <span class="label label-default">标签</span>
-        </a>
-      </div>
-      <hr>
-      <div class="media">
-        <div class="media-left">
-          <a href="#">
-          <img class="media-object" src="one logo is in here" width="40" height="40" alt="...">
-          </a>
-          </div>
-          <div class="media-body">
-          <a href="#">
-          <h4 class="media-heading">企业名字</h4>
-          </a>
-          <span class="company-meta">企业信息</span>
-          </div>
-      </div>
-      </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="job-box">
+            <div class="caption">
+                <a href="{{ url_for('jobs.index') }}{{ job.job_id }}">
+                    <b>{{ job.title }}</b> <span class="timesince">[{{ job.updated_at | get_jobdelta }}天前]</span>
+                    <p>经验{{ job.exp }}年 学历{{ job.degree }} 薪资范围:{{ job.low_salary }}-{{ job.high_salary }}</p>
+                    {% for tag in job.tags.split(",") %}
+                        <span class="label label-default">{{ tag }}</span>
+                    {% endfor %}
+                </a>
+            </div>
+            <hr>
+            <div class="media">
+                <div class="media-left">
+                    <a href="{{ url_for('company.index') }}{{ job.comp_id }}">
+                        <img width="40" height="40" class="media-object" alt="..." src="{{ job.company.com_logo }}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="{{ url_for('company.index') }}{{ job.comp_id }}">
+                        <h4 class="media-heading">{{ job.company.user.username }}</h4>
+                    </a>
+                    <span class="company-meta">None/None/{{ job.company.com_location }}</span>
+                </div>
+            </div>
+        </div>
     </div>
 {% endmacro %}
 

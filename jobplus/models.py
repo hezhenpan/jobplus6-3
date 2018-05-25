@@ -27,16 +27,22 @@ class User(Base,UserMixin):
     ROLE_COMPANY = 20
     ROLE_ADMIN = 30
 
+
     id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(32),unique=True,index=True,nullable=False)
     email = db.Column(db.String(64),unique=True,index=True,nullable=False)
+    coms = db.relationship('ComInfo')
 
     #password 指定列名
     _password = db.Column('password',db.String(256),nullable=False)
     role = db.Column(db.SmallInteger,default=ROLE_USER)
+
+    # 以下信息为用户补充信息
+    realname = db.Column(db.String(32))
     resume = db.Column(db.String(128))
-    # 逻辑删除标记，若不用，可忽略,0-删除,1-未删除
-    isdeleted = db.Column(db.SmallInteger,default=0)
+    phone = db.Column(db.String(12))
+    exp = db.Column(db.String(24))
+    status = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
         return '<User:{}>'.format(self.username)
@@ -50,7 +56,7 @@ class User(Base,UserMixin):
         """ 存入password """
         self._password = generate_password_hash(orig_password)
 
-    def check_password():
+    def check_password(self, password):
         """ 判断用户输入的密码和存储的hash密码是否相等 """
         return check_password_hash(self._password,password)
 
@@ -60,7 +66,11 @@ class User(Base,UserMixin):
 
     @property
     def is_company(self):
-        return self.role == self.ROLE_STAFF
+        return self.role == self.ROLE_COMPANY
+
+    @property
+    def is_disable(self):
+        return not self.status
 
 
 class JobInfo(Base):
@@ -86,7 +96,7 @@ class JobInfo(Base):
     company = db.relationship('ComInfo',uselist=False,backref=db.backref("job"))
 
     def __repr__(self):
-        return '<Company:{},Job:{}>'.format(self.company.username,self.title)
+        return '<Company:{},Job:{}>'.format(self.company.user.username,self.title)
 
 
 class ComInfo(Base):
@@ -96,9 +106,7 @@ class ComInfo(Base):
     com_id = db.Column(db.Integer,db.ForeignKey('user.id',ondelete='CASCADE'),primary_key=True)
     user = db.relationship('User',uselist=False,backref=db.backref("company"))
 
-    com_name = db.Column(db.String(128))
-    com_email = db.Column(db.String(64),unique=True,nullable=False)
-    com_phone = db.Column(db.Integer,unique=True)
+    com_phone = db.Column(db.String(11))
     com_location = db.Column(db.String(128))
     com_logo = db.Column(db.String(128))
     com_web = db.Column(db.String(64))
@@ -106,7 +114,7 @@ class ComInfo(Base):
     com_desc_more = db.Column(db.String(256))
 
     def __repr__(self):
-        return '<Company:{}>'.format(self.com_name)
+        return '<Company:{}>'.format(self.user.username)
 
 
 class UserJob(Base):
@@ -123,5 +131,7 @@ class UserJob(Base):
     job_id = db.Column(db.Integer,db.ForeignKey('jobinfo.job_id'))
     job = db.relationship('JobInfo',backref=db.backref('interm'))
 
+    # 简历链接
+    resume = db.Column(db.String(128))
     # 简历状态 0-待查看，1-已拒绝，2-面试
     status = db.Column(db.SmallInteger,default=0)

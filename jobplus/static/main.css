@@ -17,3 +17,34 @@
     background-color: #fff;
 }
 
+.job-box {
+    padding: 13px;
+    border: solid 1px #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.nav-pagination {
+    text-align: center;
+    clear: both;
+}
+
+.list-more {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.footer {
+    text-align: center;
+    clear: both;
+    border-top: 1px solid #eee;
+    padding: 16px 0 24px;
+    margin-top: 15px;
+    color: #999;
+    font-size: 14px;
+}
+
+.timesince {
+    font-size: 12px;
+    color: #999;
+}

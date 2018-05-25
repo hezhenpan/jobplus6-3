@@ -1,8 +1,9 @@
-{% extends "company/index.html" %}
+{% extends "base.html" %}
 {% from "macros.html" import render_form %}
 
 {% block body %}
     <div class="form_container">
-{{ render_form(form,url_for('company.setdetail')) }}
+        <h1>企业注册</h1>
+        {{ render_form(form) }}
     </div>
 {% endblock %}
