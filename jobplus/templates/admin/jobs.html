@@ -1,0 +1,28 @@
+{% extends "admin/index.html" %}
+{% from "macros.html" import render_pagination %}
+
+{% block title %}
+Admin - Jobs
+{% endblock %}
+
+{% block admin %}
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>title</th>
+			<th>company</th>
+			<th>op</th>
+		</tr>	
+		<tbody>
+			{% for job in pagination.items %}
+				<tr>
+					<td>{{ job.id }}</td>
+					<td>{{ job.title }}</td>
+					<td>{{ job.company.user.username }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</thead>
+</table>
+{% endblock %}

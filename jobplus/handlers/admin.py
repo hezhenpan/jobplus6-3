@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for, flash
 from jobplus.decorators import admin_required
-from jobplus.models import User, ComInfo
+from jobplus.models import User, ComInfo, JobInfo
 from jobplus.forms import db, UserForm, Add_UserForm, Add_ComForm, CompanyForm
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -10,6 +10,19 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 @admin_required
 def index():
     return render_template('admin/admin_base.html')
+
+
+@admin.route('/jobs')
+@admin_required
+def jobs():
+    page = request.args.get('page', default=1, type=int)
+    pagination = JobInfo.query.paginate(
+        page=page,
+        per_page=current_app.config['ADMIN_PER_PAGE'],
+        error_out=False
+    )
+    return render_template('admin/jobs.html', pagination=pagination)
+
 
 
 @admin.route('/users')
@@ -87,3 +100,4 @@ def edit_company(com_id):
     form.com_name.data = user.username
     form.com_email.data = user.email
     return render_template('admin/edit_company.html', form=form, comp=comp)
+

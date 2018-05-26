@@ -8,7 +8,7 @@ class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     INDEX_PER_PAGE = 9
     COMINFO_PER_PAGE = 9
-    ADMIN_PER_PAGE = 10
+    ADMIN_PER_PAGE = 15
 
 
 class ProductionConfig(BaseConfig):
