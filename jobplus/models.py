@@ -42,6 +42,7 @@ class User(Base,UserMixin):
     resume = db.Column(db.String(128))
     phone = db.Column(db.String(12))
     exp = db.Column(db.String(24))
+    # 用户禁用启用标志 True为启用
     status = db.Column(db.Boolean, default=True)
 
     def __repr__(self):
