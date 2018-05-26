@@ -24,4 +24,6 @@ def role_required(role):
 company_required = role_required(User.ROLE_COMPANY)
 # 管理员用户装饰器
 admin_required = role_required(User.ROLE_COMPANY)
+# 超级管理员才具有对user的操作权限
+super_admin_required = role_required(User.ROLE_ADMIN)
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for, flash
-from jobplus.decorators import admin_required
+from jobplus.decorators import admin_required,super_admin_required
 from jobplus.models import User, ComInfo, JobInfo
 from jobplus.forms import db, UserForm, Add_UserForm, Add_ComForm, CompanyForm
 
@@ -24,9 +24,8 @@ def jobs():
     return render_template('admin/jobs.html', pagination=pagination)
 
 
-
 @admin.route('/users')
-@admin_required
+@super_admin_required
 def users():
     page = request.args.get('page', default=1, type=int)
     pagination = User.query.paginate(
@@ -38,7 +37,7 @@ def users():
 
 
 @admin.route('/users/create', methods=['GET', 'POST'])
-@admin_required
+@super_admin_required
 def create_user():
     form = Add_UserForm()
     if form.validate_on_submit():
@@ -49,7 +48,7 @@ def create_user():
 
 
 @admin.route('/users/<int:user_id>/edit', methods=['GET', 'POST'])
-@admin_required
+@super_admin_required
 def edit_user(user_id):
     user = User.query.get_or_404(user_id)
     form = UserForm(obj=user)
@@ -66,7 +65,7 @@ def edit_user(user_id):
 
 
 @admin.route('/users/<int:user_id>/update')
-@admin_required
+@super_admin_required
 def reverse_user_status(user_id):
     user = User.query.get_or_404(user_id)
     user.status = not user.status
@@ -77,7 +76,7 @@ def reverse_user_status(user_id):
 
 
 @admin.route('/comps/addcompany', methods=['GET', 'POST'])
-@admin_required
+@super_admin_required
 def add_company():
     form = Add_ComForm()
     if form.validate_on_submit():
@@ -88,7 +87,7 @@ def add_company():
 
 
 @admin.route('/comps/<int:com_id>/edit', methods=['GET', 'POST'])
-@admin_required
+@super_admin_required
 def edit_company(com_id):
     comp = ComInfo.query.get_or_404(com_id)
     user = User.query.get_or_404(com_id)

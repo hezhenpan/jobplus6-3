@@ -26,7 +26,7 @@
         <ul class="nav navbar-nav">
             <li><a href="{{ url_for('jobs.index') }}">职位<span class="sr-only">(current)</span></a></li>
             <li><a href="{{ url_for('company.index') }}">公司</a></li>
-            {% if current_user.is_authenticated and current_user.is_admin %}
+            {% if current_user.is_authenticated and current_user.is_admin or current_user.is_company %}
                 <li><a href="{{ url_for('admin.index') }}">管理</a></li>
             {% endif %}
         </ul>
