@@ -2,7 +2,7 @@
 {% from "macros.html" import render_pagination %}
 
 {% block title %}
-职位管理
+    职位管理
 {% endblock %}
 
 {% block admin %}
@@ -10,21 +10,23 @@
 	<thead>
 		<tr>
 			<th>ID</th>
-			<th>职位名称</th>
-			<th>公司名称</th>
-			<th>发布时间</th>
-			<th>上/下线操作</th>
+            <th>职位名称</th>
+            <th>公司名称</th>
+            <th>发布时间</th>
+            <th>上/下线操作</th>
 		</tr>	
 		<tbody>
 			{% for job in pagination.items %}
-				<tr class="{% if not job.is_online %}text_gray{% endif %}">
-					<td>{{ job.job_id }}</td>
+                <tr class="{% if not job.is_online %}text_gray{% endif %}">
+                    <td>{{ job.job_id }}</td>
 					<td>{{ job.title }}</td>
 					<td>{{ job.company.user.username }}</td>
-					<td>{{ job.created_at }}</td>
-					<td>
-						<a href="{{ url_for('admin.reverse_job_status', job_id=job.job_id) }}" type="button" class="btn {% if job.is_online %}btn-danger{% else %}btn-success{% endif %}">{% if job.is_online %}下线{% else %}上线{% endif %}</a>
-					</td>
+                    <td>{{ job.created_at }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.reverse_job_status', job_id=job.job_id) }}" type="button"
+                           class="btn {% if job.is_online %}btn-danger{% else %}btn-success{% endif %}">
+                            {% if job.is_online %}下线{% else %}上线{% endif %}</a>
+                    </td>
 				</tr>
 			{% endfor %}
 		</tbody>
