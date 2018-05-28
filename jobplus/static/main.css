@@ -48,3 +48,28 @@
     font-size: 12px;
     color: #999;
 }
+
+.text_gray {
+    color: gray;
+}
+
+a,
+a:hover,
+a:visited {
+    text-decoration: none;
+}
+
+.job_name,
+.com_name,
+.com_loc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.com_desc {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+    height:100px;
+}

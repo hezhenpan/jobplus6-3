@@ -37,7 +37,6 @@ def login():
         else:
             user = User.query.filter_by(username=form.username_or_email.data).first()
         login_user(user, form.remember_me.data)
-        # 这里后面要填写定向到哪个页面
         if user.status:
             flash('登录成功', 'success')
             return redirect(url_for('.index'))

@@ -8,7 +8,6 @@ from jobplus.models import User
 def role_required(role):
     """
         带参数的装饰器，用它来保护路由函数只被特定的用户访问
-
     """
     def decorator(func):
         @wraps(func)
@@ -22,8 +21,6 @@ def role_required(role):
 
 # 企业用户装饰器
 company_required = role_required(User.ROLE_COMPANY)
-# 管理员用户装饰器
-admin_required = role_required(User.ROLE_COMPANY)
 # 超级管理员才具有对user的操作权限
 super_admin_required = role_required(User.ROLE_ADMIN)
 

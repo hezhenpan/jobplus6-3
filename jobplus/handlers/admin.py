@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, current_app, redirect, url_for, flash
-from jobplus.decorators import admin_required,super_admin_required
+from jobplus.decorators import super_admin_required
 from jobplus.models import User, ComInfo, JobInfo
 from jobplus.forms import db, UserForm, Add_UserForm, Add_ComForm, CompanyForm
 
@@ -7,13 +7,13 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 
 
 @admin.route('/')
-@admin_required
+@super_admin_required
 def index():
     return render_template('admin/admin_base.html')
 
 
 @admin.route('/jobs')
-@admin_required
+@super_admin_required
 def jobs():
     page = request.args.get('page', default=1, type=int)
     pagination = JobInfo.query.paginate(
@@ -22,6 +22,17 @@ def jobs():
         error_out=False
     )
     return render_template('admin/jobs.html', pagination=pagination)
+
+
+@admin.route('/jobs/<int:job_id>/update')
+@super_admin_required
+def reverse_job_status(job_id):
+    job = JobInfo.query.get_or_404(job_id)
+    job.change_status()
+    db.session.add(job)
+    db.session.commit()
+    flash('操作成功', 'success')
+    return redirect(url_for('admin.jobs'))
 
 
 @admin.route('/users')

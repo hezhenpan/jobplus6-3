@@ -99,6 +99,12 @@ class JobInfo(Base):
     def __repr__(self):
         return '<Company:{},Job:{}>'.format(self.company.user.username,self.title)
 
+    @property
+    def is_online(self):
+        return self.isonline
+
+    def change_status(self):
+        self.isonline = not self.isonline
 
 class ComInfo(Base):
     """ 企业用户信息扩展表 """
